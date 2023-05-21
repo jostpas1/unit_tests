@@ -23,4 +23,9 @@ class TestGossipingBusDrivers(unittest.TestCase):
         bus_system = BusSystem([[1, 2, 3, 4], [4, 5, 6, 7]])
         self.assertEqual(bus_system.get_all_gossips(), {1: {1, 2}, 2: {1, 2}})
 
+    # Test mit Routen unterschiedlicher Längen
+    def test_different_length_routes(self):
+        bus_system = BusSystem([[1, 2, 3, 4], [3, 4]])
+        self.assertEqual(bus_system.run(), 3)
+
     # ...weitere Tests später hinzufügen...
