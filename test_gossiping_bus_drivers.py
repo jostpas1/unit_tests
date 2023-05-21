@@ -48,4 +48,9 @@ class TestGossipingBusDrivers(unittest.TestCase):
         bus_system = BusSystem([[i, i + 1, i + 2, i + 3] for i in range(1000)])
         self.assertEqual(bus_system.run(), 'never')
 
+    # Test mit sehr vielen Haltestellen
+    def test_large_number_of_stops(self):
+        bus_system = BusSystem([[i for i in range(1000)], [999]])
+        self.assertEqual(bus_system.run(), 1000)
+
     # ...weitere Tests später hinzufügen...
