@@ -17,5 +17,10 @@ class TestGossipingBusDrivers(unittest.TestCase):
     def test_meeting_routes(self):
         bus_system = BusSystem([[1, 2, 3, 4], [4, 5, 6, 7]])
         self.assertEqual(bus_system.run(), 4)
-        
+
+    # Test, ob Gosspis korrekt ausgetauscht werden
+    def test_gossip_exchange(self):
+        bus_system = BusSystem([[1, 2, 3, 4], [4, 5, 6, 7]])
+        self.assertEqual(bus_system.get_all_gossips(), {1: {1, 2}, 2: {1, 2}})
+
     # ...weitere Tests später hinzufügen...
