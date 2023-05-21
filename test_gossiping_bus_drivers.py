@@ -13,5 +13,9 @@ class TestGossipingBusDrivers(unittest.TestCase):
         bus_system = BusSystem([[1, 2, 3, 4], [5, 6, 7, 8]])
         self.assertEqual(bus_system.run(), 'never')
 
-
+    # Test mit mehreren Routen, die sich mind. 1x treffen:
+    def test_meeting_routes(self):
+        bus_system = BusSystem([[1, 2, 3, 4], [4, 5, 6, 7]])
+        self.assertEqual(bus_system.run(), 4)
+        
     # ...weitere Tests später hinzufügen...
