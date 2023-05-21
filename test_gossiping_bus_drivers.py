@@ -38,4 +38,10 @@ class TestGossipingBusDrivers(unittest.TestCase):
         bus_system = BusSystem([[1, 2, 3, 4], [1, 6, 7, 8]])
         self.assertEqual(bus_system.run(), 1)
 
+    # Test mit Routen, die sich zur Mitte des Tages treffen
+    def test_middle_of_day_meeting_routes(self):
+        bus_system = BusSystem([[1, 2, 3, 4], [3]])
+        self.assertEqual(bus_system.run(), 3)
+
+        
     # ...weitere Tests später hinzufügen...
