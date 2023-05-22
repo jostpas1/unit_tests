@@ -1,18 +1,20 @@
 class BusSystem:
     def __init__(self, routes):
         self.routes = routes
-        self.gossips = {i: {i} for i in range(len(routes))}
+        self.gossips = [set([i]) for i in range(len(routes))]
+
+    def all_gossips_exchanged(self):
+        all_gossips = set(range(len(self.routes)))
+        return all(self.gossips[driver] == all_gossips for driver in self.gossips)
 
     def run(self):
-        for time in range(480):  # Für jede Minute des Tages...
+        for time in range(480):
             stops = [route[time % len(route)] for route in self.routes]
-            for i, stop in enumerate(stops):
-                for j, other_stop in enumerate(stops):
-                    if stop == other_stop:
-                        self.gossips[i] = self.gossips[i].union(self.gossips[j])
-            if len(set(stops)) < len(stops):  # Wenn es eine doppelte Haltestelle gibt, treffen sich die Busse
+            for i in range(len(stops)):
+                for j in range(i + 1, len(stops)):
+                    if stops[i] == stops[j]:
+                        self.gossips[i].update(self.gossips[j])
+                        self.gossips[j].update(self.gossips[i])
+            if self.all_gossips_exchanged():
                 return time + 1
         return 'never'
-
-    def get_all_gossips(self):
-        return self.gossips
