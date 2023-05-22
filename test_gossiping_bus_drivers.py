@@ -60,3 +60,13 @@ class TestGossipingBusDrivers(unittest.TestCase):
                                 [100, 90, 80, 70, 60, 50, 40, 30, 20, 10],
                                 [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]])
         self.assertEqual(bus_system.run(), 'never')
+
+
+    #Negativ Tests
+    def test_no_drivers(self):
+        bus_system = BusSystem([])
+        self.assertEqual(bus_system.run(), 0)
+
+    def test_no_routes(self):
+        bus_system = BusSystem([[]])
+        self.assertEqual(bus_system.run(), 0)
