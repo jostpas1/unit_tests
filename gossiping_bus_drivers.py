@@ -1,20 +1,25 @@
 class BusSystem:
     def __init__(self, routes):
         self.routes = routes
-        self.gossips = [set([i]) for i in range(len(routes))]
-
-    def all_gossips_exchanged(self):
-        all_gossips = set(range(len(self.routes)))
-        return all(self.gossips[driver] == all_gossips for driver in self.gossips)
+        self.drivers = {i: set([i]) for i in range(len(routes))}
 
     def run(self):
-        for time in range(480):
-            stops = [route[time % len(route)] for route in self.routes]
-            for i in range(len(stops)):
-                for j in range(i + 1, len(stops)):
-                    if stops[i] == stops[j]:
-                        self.gossips[i].update(self.gossips[j])
-                        self.gossips[j].update(self.gossips[i])
-            if self.all_gossips_exchanged():
-                return time + 1
-        return 'never'
+        if not self.routes or not any(self.routes):
+            return "never"
+
+        for time in range(480):  # 480 minutes in an 8-hour shift
+            stops = {i: self.routes[i][time % len(self.routes[i])] for i in range(len(self.routes))}
+            gossips = self.drivers.copy()
+
+            for i in stops:
+                for j in stops:
+                    if i != j and stops[i] == stops[j]:
+                        gossips[i] = gossips[i].union(self.drivers[j])
+                        gossips[j] = gossips[j].union(self.drivers[i])
+
+            self.drivers = gossips
+
+            if all(len(driver_gossips) == len(self.drivers) for driver_gossips in self.drivers.values()):
+                return time + 1  # Return the current minute
+
+        return "never"
